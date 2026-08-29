@@ -243,8 +243,19 @@
         if (matchesQuery && matchesFilter) {
           visibleCount++;
           
-          // Fallback image handling
-          const iconPath = game.icon ? `${GAMES_DIR_PATH}/${game.folder}/${game.icon}` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="%2330363d"><rect width="80" height="80"/></svg>';
+          // Icon logic (supports both external URLs and local files):
+          let iconPath;
+
+          if (!game.icon) {
+            // 1. Fallback placeholder if no icon is specified
+            iconPath = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="%2330363d"><rect width="80" height="80"/></svg>';
+          } else if (game.icon.startsWith('http://') || game.icon.startsWith('https://') || game.icon.startsWith('data:')) {
+            // 2. External URL or base64 image
+            iconPath = game.icon;
+          } else {
+            // 3. Local relative path inside the game's folder
+            iconPath = `${GAMES_DIR_PATH}/${game.folder}/${game.icon}`;
+          }
 
           // Create Badges HTML
           const badgesHtml = gameTags.map(tag => `<span class="badge">${tag}</span>`).join('');
