@@ -24,11 +24,7 @@
       --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: var(--font-stack);
@@ -39,7 +35,7 @@
       flex-direction: column;
     }
 
-    /* Top GitHub-style Navigation Bar */
+    /* Top Navigation */
     header {
       background-color: var(--bg-subtle);
       border-bottom: 1px solid var(--border-default);
@@ -48,391 +44,271 @@
       align-items: center;
       justify-content: space-between;
     }
-
-    .repo-breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.95rem;
-    }
-
-    .repo-breadcrumb a {
-      color: var(--accent-blue);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .repo-breadcrumb a:hover {
-      text-decoration: underline;
-    }
-
-    .repo-breadcrumb span {
-      color: var(--text-secondary);
-    }
+    .repo-breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .repo-breadcrumb a { color: var(--accent-blue); text-decoration: none; font-weight: 600; }
+    .repo-breadcrumb a:hover { text-decoration: underline; }
+    .repo-breadcrumb span { color: var(--text-secondary); }
 
     .github-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: var(--text-primary);
-      text-decoration: none;
-      font-size: 0.85rem;
-      padding: 0.3rem 0.6rem;
-      background-color: var(--border-muted);
-      border: 1px solid var(--border-default);
-      border-radius: 6px;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: var(--text-primary); text-decoration: none; font-size: 0.85rem;
+      padding: 0.3rem 0.6rem; background-color: var(--border-muted);
+      border: 1px solid var(--border-default); border-radius: 6px;
       transition: background 0.15s;
     }
+    .github-link:hover { background-color: #30363d; }
 
-    .github-link:hover {
-      background-color: #30363d;
-    }
+    /* Hero & Search */
+    .hero { max-width: 960px; width: 100%; margin: 0 auto; padding: 2.5rem 1rem 1.5rem 1rem; }
+    .hero h1 { font-size: 1.75rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .hero p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
 
-    /* Hero / Search Section */
-    .hero {
-      max-width: 960px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 2.5rem 1rem 1.5rem 1rem;
-    }
-
-    .hero h1 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .hero p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .controls-row {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
+    .controls-row { display: flex; flex-direction: column; gap: 1rem; }
     @media (min-width: 640px) {
-      .controls-row {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
+      .controls-row { flex-direction: row; justify-content: space-between; align-items: flex-start; }
     }
 
-    .search-box {
-      position: relative;
-      flex: 1;
-      max-width: 400px;
-    }
-
+    .search-box { position: relative; flex: 1; max-width: 400px; }
     .search-box input {
-      width: 100%;
-      background-color: var(--bg-canvas);
-      border: 1px solid var(--border-default);
-      border-radius: 6px;
-      color: var(--text-primary);
-      padding: 0.45rem 0.75rem;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%; background-color: var(--bg-canvas); border: 1px solid var(--border-default);
+      border-radius: 6px; color: var(--text-primary); padding: 0.45rem 0.75rem; font-size: 0.9rem;
+      outline: none; transition: border-color 0.15s, box-shadow 0.15s;
     }
+    .search-box input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2); }
 
-    .search-box input:focus {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
-    }
-
-    .filter-tags {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-    }
-
+    .filter-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; flex: 2; justify-content: flex-end; }
     .filter-btn {
-      background: none;
-      border: 1px solid var(--border-default);
-      border-radius: 20px;
-      color: var(--text-secondary);
-      padding: 0.25rem 0.75rem;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.15s;
+      background: none; border: 1px solid var(--border-default); border-radius: 20px;
+      color: var(--text-secondary); padding: 0.25rem 0.75rem; font-size: 0.8rem;
+      cursor: pointer; transition: all 0.15s; text-transform: capitalize;
     }
+    .filter-btn:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+    .filter-btn.active { background-color: var(--border-default); color: var(--text-primary); font-weight: 600; }
 
-    .filter-btn:hover {
-      border-color: var(--text-secondary);
-      color: var(--text-primary);
-    }
+    /* Grid & Cards */
+    main { max-width: 960px; width: 100%; margin: 0 auto; padding: 0 1rem 3rem 1rem; flex: 1; }
+    .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
 
-    .filter-btn.active {
-      background-color: var(--border-default);
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-
-    /* Main Grid */
-    main {
-      max-width: 960px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 0 1rem 3rem 1rem;
-      flex: 1;
-    }
-
-    .game-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-
-    /* GitHub-style Cards */
     .game-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-default);
-      border-radius: 6px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      transition: border-color 0.15s, background-color 0.15s;
+      background-color: var(--bg-card); border: 1px solid var(--border-default); border-radius: 6px;
+      display: flex; flex-direction: column; overflow: hidden; transition: border-color 0.15s, background-color 0.15s;
     }
+    .game-card:hover { border-color: var(--text-secondary); background-color: var(--bg-card-hover); }
 
-    .game-card:hover {
-      border-color: var(--text-secondary);
-      background-color: var(--bg-card-hover);
-    }
+    .card-banner { height: 120px; background-color: #010409; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-muted); }
+    .card-banner img { max-height: 80px; max-width: 80px; object-fit: contain; border-radius: 8px; }
 
-    .card-banner {
-      height: 120px;
-      background-color: #010409;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border-muted);
-    }
+    .card-body { padding: 1rem; display: flex; flex-direction: column; flex: 1; }
+    .card-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .card-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 1rem; flex: 1; }
 
-    .card-banner img {
-      max-height: 80px;
-      max-width: 80px;
-      object-fit: contain;
-      border-radius: 8px;
-    }
-
-    .card-body {
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .card-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.35rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .card-desc {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.4;
-      margin-bottom: 1rem;
-      flex: 1;
-    }
-
-    .card-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-bottom: 1rem;
-    }
-
+    .card-badges { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
     .badge {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      padding: 0.15rem 0.45rem;
-      border-radius: 12px;
-      background-color: var(--badge-bg);
-      border: 1px solid var(--badge-border);
-      color: var(--badge-text);
+      font-family: var(--font-mono); font-size: 0.72rem; padding: 0.15rem 0.45rem; border-radius: 12px;
+      background-color: var(--badge-bg); border: 1px solid var(--badge-border); color: var(--badge-text);
+      text-transform: capitalize;
     }
 
-    .badge.secondary {
-      background-color: var(--border-muted);
-      border-color: var(--border-default);
-      color: var(--text-secondary);
-    }
-
-    /* GitHub Green Action Button */
     .play-btn {
-      display: block;
-      text-align: center;
-      text-decoration: none;
-      background-color: var(--accent-green);
-      color: #ffffff;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 0.45rem 1rem;
-      border-radius: 6px;
-      border: 1px solid rgba(240, 246, 252, 0.1);
-      transition: background-color 0.15s;
+      display: block; text-align: center; text-decoration: none; background-color: var(--accent-green);
+      color: #ffffff; font-size: 0.85rem; font-weight: 600; padding: 0.45rem 1rem;
+      border-radius: 6px; border: 1px solid rgba(240, 246, 252, 0.1); transition: background-color 0.15s;
     }
+    .play-btn:hover { background-color: var(--accent-green-hover); }
 
-    .play-btn:hover {
-      background-color: var(--accent-green-hover);
-    }
-
-    /* Empty state */
-    .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 3rem 1rem;
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      display: none;
-    }
+    /* Loading / Error States */
+    .status-msg { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary); font-size: 0.9rem; }
+    
+    .skeleton { animation: pulse 1.5s infinite; background-color: var(--border-muted); border-radius: 4px; }
+    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 0.2; } 100% { opacity: 0.6; } }
+    .skel-card { height: 300px; border-radius: 6px; display: flex; flex-direction: column; gap: 1rem; background-color: var(--bg-card); border: 1px solid var(--border-default); padding-bottom: 1rem;}
+    .skel-banner { height: 120px; width: 100%; }
+    .skel-title { height: 20px; width: 60%; margin: 0 1rem; }
+    .skel-desc { height: 40px; width: 85%; margin: 0 1rem; }
+    .skel-btn { height: 30px; width: calc(100% - 2rem); margin: auto 1rem 0 1rem; }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
   <header>
     <div class="repo-breadcrumb">
-      <svg height="18" viewBox="0 0 16 16" width="18" fill="currentColor" style="color: var(--text-secondary);">
-        <path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h6.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-6.5a.25.25 0 0 1-.25-.25Z"></path>
-      </svg>
+      <svg height="18" viewBox="0 0 16 16" width="18" fill="currentColor" style="color: var(--text-secondary);"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h6.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-6.5a.25.25 0 0 1-.25-.25Z"></path></svg>
       <a href="#">CompetitiveCanister</a>
       <span>/</span>
       <a href="#">PokiDebloated</a>
     </div>
-
-    <a href="https://github.com/CompetitiveCanister/PokiDebloated" target="_blank" rel="noopener" class="github-link">
-      <svg height="14" viewBox="0 0 16 16" width="14" fill="currentColor">
-        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
-      </svg>
+    <a href="https://github.com/CompetitiveCanister/PokiDebloated" target="_blank" class="github-link">
+      <svg height="14" viewBox="0 0 16 16" width="14" fill="currentColor"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
       GitHub
     </a>
   </header>
 
-  <!-- Hero Controls -->
   <section class="hero">
     <h1>Game Directory</h1>
     <p>Debloated and offline-ready web games hosted on GitHub Pages.</p>
-
     <div class="controls-row">
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search games... (Press '/' to focus)" autocomplete="off" />
       </div>
-
       <div class="filter-tags" id="filterContainer">
         <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="multiplayer">Multiplayer</button>
-        <button class="filter-btn" data-filter="action">Action</button>
-        <button class="filter-btn" data-filter="construct3">Construct 3</button>
+        <!-- Dynamic filters will be injected here -->
       </div>
     </div>
   </section>
 
-  <!-- Game Grid -->
   <main>
     <div class="game-grid" id="gameGrid">
-
-      <!-- Game Card: Tag -->
-      <div class="game-card" data-tags="multiplayer action construct3" data-name="tag">
-        <div class="card-banner">
-          <img src="https://img.poki-cdn.com/cdn-cgi/image/f=auto/32d2b1401c7a86c61fae5afeed977b37/tag-logo.png" alt="Tag icon" />
-        </div>
-        <div class="card-body">
-          <div class="card-title">Tag</div>
-          <p class="card-desc">Local 2-4 player platformer tag game with trampolines, teleports, and power-ups.</p>
-          <div class="card-badges">
-            <span class="badge">Multiplayer</span>
-            <span class="badge secondary">Construct 3</span>
-            <span class="badge secondary">2-4 Players</span>
-          </div>
-          <a href="games/tag/" class="play-btn">Play Game</a>
-        </div>
-      </div>
-
-      <!-- Template for future games:
-      <div class="game-card" data-tags="action" data-name="game-name">
-        <div class="card-banner">
-          <img src="games/game-name/icon.png" alt="Game icon" />
-        </div>
-        <div class="card-body">
-          <div class="card-title">Game Title</div>
-          <p class="card-desc">Description of the game.</p>
-          <div class="card-badges">
-            <span class="badge">Action</span>
-            <span class="badge secondary">Singleplayer</span>
-          </div>
-          <a href="games/game-name/" class="play-btn">Play Game</a>
-        </div>
-      </div>
-      -->
-
-      <div class="empty-state" id="emptyState">No games match your search or filter.</div>
+      <!-- Loading Skeletons -->
+      <div class="skel-card"><div class="skeleton skel-banner"></div><div class="skeleton skel-title"></div><div class="skeleton skel-desc"></div><div class="skeleton skel-btn"></div></div>
+      <div class="skel-card"><div class="skeleton skel-banner"></div><div class="skeleton skel-title"></div><div class="skeleton skel-desc"></div><div class="skeleton skel-btn"></div></div>
+      <div class="skel-card"><div class="skeleton skel-banner"></div><div class="skeleton skel-title"></div><div class="skeleton skel-desc"></div><div class="skeleton skel-btn"></div></div>
     </div>
   </main>
 
-  <!-- Instant Search & Filter Logic -->
   <script>
+    // Configuration
+    const REPO_OWNER = 'CompetitiveCanister';
+    const REPO_NAME = 'PokiDebloated';
+    const GAMES_DIR_PATH = 'games';
+
+    const grid = document.getElementById('gameGrid');
+    const filterContainer = document.getElementById('filterContainer');
     const searchInput = document.getElementById('searchInput');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.game-card');
-    const emptyState = document.getElementById('emptyState');
+
+    let allGames = [];
+    let allTags = new Set();
     let currentFilter = 'all';
 
-    function filterCards() {
-      const query = searchInput.value.toLowerCase().trim();
+    async function loadGames() {
+      try {
+        // 1. Ask GitHub API what folders exist in the 'games' directory
+        const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${GAMES_DIR_PATH}`;
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) throw new Error("Could not fetch repository contents. Check your repo structure or rate limits.");
+        
+        const contents = await response.json();
+        
+        // Filter out anything that isn't a directory
+        const folders = contents.filter(item => item.type === 'dir').map(dir => dir.name);
+
+        // 2. Fetch the info.json for each folder locally (so we don't hit API limits)
+        const gamePromises = folders.map(async (folder) => {
+          try {
+            const infoRes = await fetch(`${GAMES_DIR_PATH}/${folder}/info.json`);
+            if (!infoRes.ok) return null; // Skip if info.json doesn't exist
+            
+            const info = await infoRes.json();
+            return { folder, ...info };
+          } catch (e) {
+            return null;
+          }
+        });
+
+        // Resolve all info.json fetches
+        const results = await Promise.all(gamePromises);
+        allGames = results.filter(game => game !== null);
+
+        if (allGames.length === 0) {
+          grid.innerHTML = '<div class="status-msg">No valid info.json files found in your games folders.</div>';
+          return;
+        }
+
+        renderGames();
+        generateFilters();
+
+      } catch (error) {
+        console.error(error);
+        grid.innerHTML = `<div class="status-msg">Error loading games: ${error.message}</div>`;
+      }
+    }
+
+    function renderGames() {
+      grid.innerHTML = ''; // Clear loading skeletons
+
       let visibleCount = 0;
+      const query = searchInput.value.toLowerCase().trim();
 
-      cards.forEach(card => {
-        const name = card.getAttribute('data-name').toLowerCase();
-        const tags = card.getAttribute('data-tags').toLowerCase();
-        const text = card.textContent.toLowerCase();
+      allGames.forEach(game => {
+        // Collect tags for generating buttons later
+        const gameTags = game.tags || [];
+        gameTags.forEach(t => allTags.add(t.toLowerCase()));
 
-        const matchesQuery = text.includes(query) || name.includes(query);
-        const matchesFilter = (currentFilter === 'all') || tags.includes(currentFilter);
+        // Filtering Logic
+        const textToSearch = `${game.title} ${game.description}`.toLowerCase();
+        const matchesQuery = textToSearch.includes(query);
+        const matchesFilter = (currentFilter === 'all') || gameTags.map(t=>t.toLowerCase()).includes(currentFilter);
 
         if (matchesQuery && matchesFilter) {
-          card.style.display = 'flex';
           visibleCount++;
-        } else {
-          card.style.display = 'none';
+          
+          // Fallback image handling
+          const iconPath = game.icon ? `${GAMES_DIR_PATH}/${game.folder}/${game.icon}` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="%2330363d"><rect width="80" height="80"/></svg>';
+
+          // Create Badges HTML
+          const badgesHtml = gameTags.map(tag => `<span class="badge">${tag}</span>`).join('');
+
+          // Construct Card
+          const cardHtml = `
+            <div class="game-card">
+              <div class="card-banner">
+                <img src="${iconPath}" alt="${game.title} icon" loading="lazy" />
+              </div>
+              <div class="card-body">
+                <div class="card-title">${game.title || game.folder}</div>
+                <p class="card-desc">${game.description || 'No description provided.'}</p>
+                <div class="card-badges">${badgesHtml}</div>
+                <a href="${GAMES_DIR_PATH}/${game.folder}/" class="play-btn">Play Game</a>
+              </div>
+            </div>
+          `;
+          grid.insertAdjacentHTML('beforeend', cardHtml);
         }
       });
 
-      emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+      if (visibleCount === 0) {
+        grid.innerHTML = '<div class="status-msg">No games match your search or filter.</div>';
+      }
     }
 
-    searchInput.addEventListener('input', filterCards);
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.getAttribute('data-filter');
-        filterCards();
+    function generateFilters() {
+      // Clear existing dynamic filters (keep 'All')
+      filterContainer.innerHTML = '<button class="filter-btn active" data-filter="all">All</button>';
+      
+      const sortedTags = Array.from(allTags).sort();
+      sortedTags.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.setAttribute('data-filter', tag);
+        btn.textContent = tag;
+        filterContainer.appendChild(btn);
       });
-    });
 
-    // Press '/' to jump to search bar (GitHub-style shortcut)
+      // Attach Event Listeners to New Buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          currentFilter = e.target.getAttribute('data-filter');
+          renderGames();
+        });
+      });
+    }
+
+    // Search Input Listener
+    searchInput.addEventListener('input', renderGames);
+
+    // Press '/' to focus search bar
     window.addEventListener('keydown', (e) => {
       if (e.key === '/' && document.activeElement !== searchInput) {
         e.preventDefault();
         searchInput.focus();
       }
     });
+
+    // Boot Up
+    document.addEventListener('DOMContentLoaded', loadGames);
   </script>
 </body>
 </html>
