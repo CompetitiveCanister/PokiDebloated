@@ -78,13 +78,33 @@
 
     .filter-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; flex: 2; justify-content: flex-end; }
     .filter-btn {
-      background: none; border: 1px solid var(--border-default); border-radius: 20px;
-      color: var(--text-secondary); padding: 0.25rem 0.75rem; font-size: 0.8rem;
-      cursor: pointer; transition: all 0.15s; text-transform: capitalize;
+      background: none; 
+      border: 1px solid var(--border-default); 
+      border-radius: 20px;
+      color: var(--text-secondary); 
+      padding: 0.25rem 0.75rem; 
+      font-size: 0.8rem;
+      cursor: pointer; 
+      transition: all 0.15s; 
+      text-transform: capitalize;
+      user-select: none;
     }
-    .filter-btn:hover { border-color: var(--text-secondary); color: var(--text-primary); }
-    .filter-btn.active { background-color: var(--border-default); color: var(--text-primary); font-weight: 600; }
-
+    .filter-btn:hover { 
+      border-color: var(--text-secondary); 
+      color: var(--text-primary); 
+    }
+    .filter-btn.active[data-filter="all"] { 
+      background-color: var(--border-default); 
+      border-color: var(--border-default);
+      color: var(--text-primary); 
+      font-weight: 600; 
+    }
+    .filter-btn.active { 
+      background-color: var(--badge-bg); 
+      border-color: var(--accent-blue); 
+      color: var(--accent-blue); 
+      font-weight: 600; 
+    }
     /* Grid & Cards */
     main { max-width: 960px; width: 100%; margin: 0 auto; padding: 0 1rem 3rem 1rem; flex: 1; }
     .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
@@ -178,27 +198,24 @@
 
     let allGames = [];
     let allTags = new Set();
-    let currentFilter = 'all';
+    let selectedTags = new Set(); // Stores multiple selected tags
 
     async function loadGames() {
       try {
-        // 1. Ask GitHub API what folders exist in the 'games' directory
+        // 1. Ask GitHub API what folders exist
         const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${GAMES_DIR_PATH}`;
         const response = await fetch(apiUrl);
         
-        if (!response.ok) throw new Error("Could not fetch repository contents. Check your repo structure or rate limits.");
+        if (!response.ok) throw new Error("Could not fetch repository contents.");
         
         const contents = await response.json();
-        
-        // Filter out anything that isn't a directory
         const folders = contents.filter(item => item.type === 'dir').map(dir => dir.name);
 
-        // 2. Fetch the info.json for each folder locally (so we don't hit API limits)
+        // 2. Fetch info.json for each folder
         const gamePromises = folders.map(async (folder) => {
           try {
             const infoRes = await fetch(`${GAMES_DIR_PATH}/${folder}/info.json`);
-            if (!infoRes.ok) return null; // Skip if info.json doesn't exist
-            
+            if (!infoRes.ok) return null;
             const info = await infoRes.json();
             return { folder, ...info };
           } catch (e) {
@@ -206,17 +223,21 @@
           }
         });
 
-        // Resolve all info.json fetches
         const results = await Promise.all(gamePromises);
         allGames = results.filter(game => game !== null);
 
         if (allGames.length === 0) {
-          grid.innerHTML = '<div class="status-msg">No valid info.json files found in your games folders.</div>';
+          grid.innerHTML = '<div class="status-msg">No valid games found.</div>';
           return;
         }
 
-        renderGames();
+        // Collect all unique tags
+        allGames.forEach(game => {
+          (game.tags || []).forEach(t => allTags.add(t.toLowerCase()));
+        });
+
         generateFilters();
+        renderGames();
 
       } catch (error) {
         console.error(error);
@@ -225,46 +246,43 @@
     }
 
     function renderGames() {
-      grid.innerHTML = ''; // Clear loading skeletons
-
+      grid.innerHTML = '';
       let visibleCount = 0;
       const query = searchInput.value.toLowerCase().trim();
 
       allGames.forEach(game => {
-        // Collect tags for generating buttons later
-        const gameTags = game.tags || [];
-        gameTags.forEach(t => allTags.add(t.toLowerCase()));
+        const gameTags = (game.tags || []).map(t => t.toLowerCase());
 
-        // Filtering Logic
+        // 1. Search Query Check (title & description)
         const textToSearch = `${game.title} ${game.description}`.toLowerCase();
         const matchesQuery = textToSearch.includes(query);
-        const matchesFilter = (currentFilter === 'all') || gameTags.map(t=>t.toLowerCase()).includes(currentFilter);
+
+        // 2. Multi-Tag Check (game must contain ALL selected tags)
+        const matchesFilter = selectedTags.size === 0 || 
+          Array.from(selectedTags).every(tag => gameTags.includes(tag));
 
         if (matchesQuery && matchesFilter) {
           visibleCount++;
-          
-          // Icon logic (supports both external URLs and local files):
-          let iconPath;
 
+          // Icon handling (supports external URLs and local relative paths)
+          let iconPath;
           if (!game.icon) {
-            // 1. Fallback placeholder if no icon is specified
             iconPath = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="%2330363d"><rect width="80" height="80"/></svg>';
           } else if (game.icon.startsWith('http://') || game.icon.startsWith('https://') || game.icon.startsWith('data:')) {
-            // 2. External URL or base64 image
             iconPath = game.icon;
           } else {
-            // 3. Local relative path inside the game's folder
             iconPath = `${GAMES_DIR_PATH}/${game.folder}/${game.icon}`;
           }
 
-          // Create Badges HTML
           const badgesHtml = gameTags.map(tag => `<span class="badge">${tag}</span>`).join('');
 
-          // Construct Card
           const cardHtml = `
             <div class="game-card">
               <div class="card-banner">
-                <img src="${iconPath}" alt="${game.title} icon" loading="lazy" />
+                <img src="${iconPath}" 
+                     alt="${game.title} icon" 
+                     loading="lazy" 
+                     onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' fill=\'%2330363d\'><rect width=\'80\' height=\'80\'/></svg>'" />
               </div>
               <div class="card-body">
                 <div class="card-title">${game.title || game.folder}</div>
@@ -279,12 +297,11 @@
       });
 
       if (visibleCount === 0) {
-        grid.innerHTML = '<div class="status-msg">No games match your search or filter.</div>';
+        grid.innerHTML = '<div class="status-msg">No games match your search or filter combination.</div>';
       }
     }
 
     function generateFilters() {
-      // Clear existing dynamic filters (keep 'All')
       filterContainer.innerHTML = '<button class="filter-btn active" data-filter="all">All</button>';
       
       const sortedTags = Array.from(allTags).sort();
@@ -296,21 +313,45 @@
         filterContainer.appendChild(btn);
       });
 
-      // Attach Event Listeners to New Buttons
-      document.querySelectorAll('.filter-btn').forEach(btn => {
+      // Multi-tag click listener
+      filterContainer.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-          e.target.classList.add('active');
-          currentFilter = e.target.getAttribute('data-filter');
+          const filter = e.target.getAttribute('data-filter');
+          const allBtn = filterContainer.querySelector('[data-filter="all"]');
+
+          if (filter === 'all') {
+            // Clear all selected tags and activate "All"
+            selectedTags.clear();
+            filterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            allBtn.classList.add('active');
+          } else {
+            // Deactivate "All" button
+            allBtn.classList.remove('active');
+
+            // Toggle tag selection in Set
+            if (selectedTags.has(filter)) {
+              selectedTags.delete(filter);
+              e.target.classList.remove('active');
+            } else {
+              selectedTags.add(filter);
+              e.target.classList.add('active');
+            }
+
+            // If user unselected all tags, automatically re-activate "All"
+            if (selectedTags.size === 0) {
+              allBtn.classList.add('active');
+            }
+          }
+
           renderGames();
         });
       });
     }
 
-    // Search Input Listener
+    // Live search listener
     searchInput.addEventListener('input', renderGames);
 
-    // Press '/' to focus search bar
+    // Keyboard shortcut '/' to search
     window.addEventListener('keydown', (e) => {
       if (e.key === '/' && document.activeElement !== searchInput) {
         e.preventDefault();
@@ -318,7 +359,6 @@
       }
     });
 
-    // Boot Up
     document.addEventListener('DOMContentLoaded', loadGames);
   </script>
 </body>
