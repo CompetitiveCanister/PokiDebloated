@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Portal</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .game-card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      border-color: #38bdf8;
+    }
+
+    .game-thumbnail {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background-color: #0f172a;
+    }
+
+    .game-info {
+      padding: 1rem;
+    }
+
+    .game-info h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+      color: #f1f5f9;
+    }
+
+    .game-info p {
+      font-size: 0.875rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Game Hub</h1>
+    <p>Select a game to play</p>
+  </header>
+
+  <main class="game-grid">
+    <!-- Tag Game Card -->
+    <a href="games/tag/" class="game-card">
+      <img src="games/tag/icons/icon-256.png" alt="Tag" class="game-thumbnail" />
+      <div class="game-info">
+        <h2>Tag</h2>
+        <p>Local multiplayer tag game.</p>
+      </div>
+    </a>
+
+    <!-- Template for adding future games:
+    <a href="games/another-game/" class="game-card">
+      <img src="games/another-game/icon.png" alt="Another Game" class="game-thumbnail" />
+      <div class="game-info">
+        <h2>Another Game</h2>
+        <p>Game description here.</p>
+      </div>
+    </a>
+    -->
+  </main>
+
+</body>
+</html>
