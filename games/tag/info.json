@@ -2,5 +2,5 @@
   "title": "Tag",
   "description": "Local 2-4 player platformer tag game with powerups, trampolines and teleports.",
   "icon": "https://img.poki-cdn.com/cdn-cgi/image/f=auto/32d2b1401c7a86c61fae5afeed977b37/tag-logo.png",
-  "tags": ["multiplayer", "action", "construct3", "2-player", "3-player", "4-player"]
+  "tags": ["multiplayer", "action", "2-player", "3-player", "4-player"]
 }
