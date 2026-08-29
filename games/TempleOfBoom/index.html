@@ -45,29 +45,38 @@
     </script>
 
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background-color: #000000;
-        }
+    * {
+        box-sizing: border-box;
+    }
 
-        #noncontent {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #000000;
+    }
 
-        /* Scales the game canvas cleanly while keeping its aspect ratio */
-        #noncontent canvas {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
+    #noncontent {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    /* Force the canvas (and any Lime wrapper) to dead center */
+    #noncontent canvas,
+    #noncontent > div {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        margin: 0 !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        object-fit: contain;
+    }
     </style>
 </head>
 
